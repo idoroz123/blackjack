@@ -1,9 +1,9 @@
 import requests
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, get_list_or_404
 
 from blackjack_game.utils import calculate_score, log_game_history
-from .models import GameSession
+from .models import GameHistory, GameSession
 
 DECK_API_URL = "https://deckofcardsapi.com/api/deck"
 
@@ -142,7 +142,7 @@ def restart_game(request, session_id):
     dealer_score = calculate_score(session.dealer_hand)
 
     log_game_history(session, player_score, dealer_score, 'game_restarted')
-    
+
     # Shuffle the deck
     shuffle_response = requests.get(f"{DECK_API_URL}/{session.deck_id}/shuffle/")
     if shuffle_response.status_code != 200:
@@ -171,3 +171,24 @@ def restart_game(request, session_id):
         "dealer_hand": [session.dealer_hand[0], {"value": "Hidden", "suit": "Hidden"}],  # Hide second dealer card
         "game_state": session.game_state
     })
+
+def get_game_history(request, session_id):
+    """
+    Fetches the game history for a given session_id.
+    """
+    history_entries = get_list_or_404(GameHistory, session_id=session_id)
+
+    # Serialize history entries
+    history_data = [
+        {
+            "player_hand": entry.player_hand,
+            "dealer_hand": entry.dealer_hand,
+            "player_score": entry.player_score,
+            "dealer_score": entry.dealer_score,
+            "outcome": entry.outcome,
+            "timestamp": entry.timestamp.strftime("%Y-%m-%d %H:%M:%S"),
+        }
+        for entry in history_entries
+    ]
+
+    return JsonResponse({"session_id": session_id, "history": history_data})

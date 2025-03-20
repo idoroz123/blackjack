@@ -1,9 +1,13 @@
 import datetime
+import secrets
 from django.db import models
 import uuid
 
+def generate_session_id():
+    return secrets.token_urlsafe(8) 
+
 class GameSession(models.Model):
-    session_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    session_id = models.CharField(primary_key=True, max_length=16, default=generate_session_id, editable=False, unique=True)
     deck_id = models.CharField(max_length=100)
     player_hand = models.JSONField(default=list)
     dealer_hand = models.JSONField(default=list)
@@ -12,7 +16,7 @@ class GameSession(models.Model):
     
 
 class GameHistory(models.Model):
-    session_id = models.CharField(max_length=255)
+    session_id = models.CharField(max_length=16)
     player_hand = models.JSONField()
     dealer_hand = models.JSONField()
     player_score = models.IntegerField()

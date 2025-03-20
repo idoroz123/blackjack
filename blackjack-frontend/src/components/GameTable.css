@@ -1,0 +1,77 @@
+/* Base styles */
+.game-table {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between; /* This ensures content is spread across the screen */
+    height: 100vh; /* Ensure the container takes the full height of the viewport */
+    background-color: #2d6a4f;
+    color: white;
+    padding: 1rem; /* Optional: Add some padding to the sides */
+  }
+  
+  .game-title {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  /* Cards container */
+  .card-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  
+  .dealer-cards {
+    margin-bottom: 3rem;
+  }
+  
+  .player-cards {
+    margin-top: 3rem;
+  }
+  
+  .card {
+    width: 10rem;
+    height: auto;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+  }
+  
+  /* Game controls */
+  .controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .btn {
+    padding: 0.5rem 1.5rem;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  .start-btn {
+    background-color: #007bff;
+    color: white;
+  }
+  
+  .hit-btn {
+    background-color: #ffcc00;
+    color: white;
+  }
+  
+  .stand-btn {
+    background-color: #ff4d4d;
+    color: white;
+  }
+  
+  /* Game state display */
+  .game-state {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 1rem;
+  }
+  
